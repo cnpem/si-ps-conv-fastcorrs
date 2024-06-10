@@ -1,5 +1,0 @@
-record(ai, "test:count") {
-    field(DTYP, "Python Device")
-    field(INP , "@cntmod AAAA BBBB")
-    field(SCAN, "1 second")
-  }
