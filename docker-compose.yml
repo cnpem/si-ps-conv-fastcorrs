@@ -1,0 +1,18 @@
+services:
+  ioc:
+    image: gitregistry.cnpem.br/gustavo.reis/si_ps_conv_fastcorrs_rework
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile
+      target: dynamic-link
+      labels:
+        org.opencontainers.image.source: https://gitlab.cnpem.br/gustavo.reis/si_ps_conv_fastcorrs_rework
+      args:
+        REPONAME: si_ps_conv_fastcorrs_rework
+        RUNDIR: /opt/si_ps_conv_fastcorrs_rework/iocBoot/iocsi_ps_conv_fastcorrs
+        BUILD_PACKAGES: libpython3-dev
+        RUNTIME_PACKAGES: libpython3.9 python3-numpy git
+        RUNTIME_PIP_PACKAGES: "git+https://github.com/lnls-sirius/dev-packages.git@v2.89.0#egg=siriuspy&subdirectory=siriuspy"
+    environment:
+      P: ${P}
+      R: ${R}
