@@ -1,0 +1,5 @@
+argparse
+numpy<=1.23
+siriuspy
+softioc
+cothread

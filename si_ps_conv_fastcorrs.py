@@ -13,8 +13,9 @@ parser = argparse.ArgumentParser(description='Start an EPICS IOC with the specif
 parser.add_argument('psname', type=str, help='The name of the power supply (PS) device')
 args = parser.parse_args()
 
+print(args.psname)
 # Define the name of the device you want to convert
-psname = args.psname
+psname = args.psname[:-1]
 # Set the record prefix
 builder.SetDeviceName(psname)
 
