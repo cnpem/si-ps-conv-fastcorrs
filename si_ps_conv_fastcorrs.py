@@ -17,7 +17,7 @@ print(args.psname)
 # Define the name of the device you want to convert
 psname = args.psname[:-1]
 # Set the record prefix
-builder.SetDeviceName(psname)
+builder.SetDeviceName('my-'+psname)
 
 # get the name of the respective magnet
 maname = MASearch.conv_psname_2_psmaname(psname)
@@ -48,8 +48,6 @@ def update():
         KickRef_Mon.set(norm.conv_current_2_strength(caget(psname + ':CurrentRef-Mon'), strengths_dipole=dipole_strength))
         KickAcc_Mon.set(norm.conv_current_2_strength(caget(psname + ':FOFBAcc-Mon'), strengths_dipole=dipole_strength))
         Kick_Mon.set(norm.conv_current_2_strength(caget(psname + ':Current-Mon'), strengths_dipole=dipole_strength))
-
-        cothread.Sleep(1)
 
 cothread.Spawn(update)
 
