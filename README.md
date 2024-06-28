@@ -32,3 +32,4 @@ Resultado do comando `htop` filtrando o `st.cmd`:
  249228 gustavo.re  20   0 1629M 81216 30548 S   0.0  1.0  0:00.00 ../../bin/linux-x86_64/si_ps_conv_fastcorrs ./st.cmd
 ```
 
+Jitter médio entre monitoramento de corrente e monitoramento de kicks: 0.26 ms
