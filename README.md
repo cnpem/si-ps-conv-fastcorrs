@@ -55,3 +55,5 @@ Resultado do comando `htop` filtrando o `si_ps_conv_fastcorrs.py`:
  311924 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
  311925 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
 ```
+
+Jitter médio entre monitoramento de corrente e monitoramento de kicks: 2.2ms
