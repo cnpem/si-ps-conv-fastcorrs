@@ -23,37 +23,39 @@ optional arguments:
 Resultado do comando `htop` filtrando o `si_ps_conv_fastcorrs.py`:
 ```
     PID USER       PRI  NI  VIRT   RES   SHR S  CPU%▽MEM%   TIME+  Command
- 311888 gustavo.re  20   0 2078M 93612 34576 R  47.1  1.2  7:25.05 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311905 gustavo.re  20   0 2078M 93612 34576 S   8.4  1.2  1:21.78 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311926 gustavo.re  20   0 2078M 93612 34576 S   3.9  1.2  0:42.22 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311927 gustavo.re  20   0 2078M 93612 34576 S   2.6  1.2  0:23.30 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311898 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311899 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311900 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311901 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.82 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311902 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311903 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311904 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311906 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311907 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311908 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311909 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311910 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.02 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311911 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311912 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311913 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311914 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311915 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311916 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.01 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311917 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.02 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311918 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.05 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311919 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.10 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311920 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311921 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311922 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311923 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311924 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
- 311925 gustavo.re  20   0 2078M 93612 34576 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440670 gustavo.re  20   0 2079M 93048 34000 S   0.6  1.2  0:07.21 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440687 gustavo.re  20   0 2079M 93048 34000 S   0.6  1.2  0:00.69 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 441292 gustavo.re  20   0 2079M 93048 34000 S   0.6  1.2  0:00.34 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440680 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440681 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440682 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440683 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:01.53 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440684 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440685 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440686 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440688 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440689 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440690 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440691 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440692 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.02 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440693 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440694 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440695 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440696 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440697 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440698 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.01 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440699 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.03 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440700 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.08 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440701 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.15 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440702 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440703 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440704 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440705 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440706 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440707 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440708 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.73 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 440709 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
+ 441293 gustavo.re  20   0 2079M 93048 34000 S   0.0  1.2  0:00.00 python ./si_ps_conv_fastcorrs.py SI-01M2:PS-FCH:
 ```
 
-Jitter médio entre monitoramento de corrente e monitoramento de kicks: 2.2ms
+Jitter médio entre monitoramento de corrente e monitoramento de kicks: 0.42ms

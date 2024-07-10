@@ -6,7 +6,7 @@ from siriuspy.search import MASearch
 # Import the basic framework components.
 from softioc import softioc, builder
 import cothread
-from cothread.catools import caget, caput
+from cothread.catools import caget, caput, camonitor
 
 # Parse command line arguments
 parser = argparse.ArgumentParser(description='Start an EPICS IOC with the specified PS name.')
@@ -41,15 +41,19 @@ Kick_SP = builder.aOut('Kick-SP', on_update=lambda v: caput(psname + ':Current-S
 builder.LoadDatabase()
 softioc.iocInit()
 
-# Start processes required to be run after iocInit
-def update():
-    while True:
-        Kick_RB.set(norm.conv_current_2_strength(caget(psname + ':Current-RB'), strengths_dipole=dipole_strength))
-        KickRef_Mon.set(norm.conv_current_2_strength(caget(psname + ':CurrentRef-Mon'), strengths_dipole=dipole_strength))
-        KickAcc_Mon.set(norm.conv_current_2_strength(caget(psname + ':FOFBAcc-Mon'), strengths_dipole=dipole_strength))
-        Kick_Mon.set(norm.conv_current_2_strength(caget(psname + ':Current-Mon'), strengths_dipole=dipole_strength))
+def rb(val):
+    Kick_RB.set(norm.conv_current_2_strength(val, strengths_dipole=dipole_strength))
+def ref_mon(val):
+    KickRef_Mon.set(norm.conv_current_2_strength(val, strengths_dipole=dipole_strength))
+def acc_mon(val):
+    KickAcc_Mon.set(norm.conv_current_2_strength(val, strengths_dipole=dipole_strength))
+def mon(val):
+    Kick_Mon.set(norm.conv_current_2_strength(val, strengths_dipole=dipole_strength))
 
-cothread.Spawn(update)
+camonitor(psname+':Current-RB', rb)
+camonitor(psname+':CurrentRef-Mon', ref_mon)
+camonitor(psname+':FOFBAcc-Mon', acc_mon)
+camonitor(psname+':Current-Mon', mon)
 
 # Finally leave the IOC running with an interactive shell.
 softioc.interactive_ioc(globals())
