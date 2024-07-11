@@ -1,3 +1,4 @@
+version: "3.2"
 services:
   ioc:
     image: gitregistry.cnpem.br/gustavo.reis/si_ps_conv_fastcorrs_rework
@@ -14,5 +15,5 @@ services:
         RUNTIME_PACKAGES: libpython3.9 python3-numpy git
         RUNTIME_PIP_PACKAGES: "git+https://github.com/lnls-sirius/dev-packages.git@v2.89.0#egg=siriuspy&subdirectory=siriuspy"
     environment:
-      P: ${P}
-      R: ${R}
+      SEC: ${SEC}
+    network_mode: host
