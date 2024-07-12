@@ -9,51 +9,71 @@ import cothread
 from cothread.catools import caget, caput, camonitor
 
 # Parse command line arguments
-parser = argparse.ArgumentParser(description='Start an EPICS IOC with the specified PS name.')
-parser.add_argument('psname', type=str, help='The name of the power supply (PS) device')
+parser = argparse.ArgumentParser(description='Start an EPICS IOC with the specified for specific sector number')
+parser.add_argument('sector', type=str, help='Sector number')
 args = parser.parse_args()
 
-print(args.psname)
+print(args.sector)
 # Define the name of the device you want to convert
-psname = args.psname[:-1]
-# Set the record prefix
-builder.SetDeviceName('my-'+psname)
+sector = args.sector
 
-# get the name of the respective magnet
-maname = MASearch.conv_psname_2_psmaname(psname)
-
-# create normalizer object
-norm = NormalizerFactory.create(maname)
+correctors = ['M1', 'M2', 'C2', 'C3']
+orientation= ['FCH', 'FCV']
 
 # get dipole energy, used for conversions
 dipole_strength = 3  # GeV, read from PV SI-Fam:PS-B1B2-1:EnergyRef-Mon
 
-# Create some records
-Kick_RB = builder.aIn('Kick-RB')
-KickRef_Mon = builder.aIn('KickRef-Mon')
-KickAcc_Mon = builder.aIn('KickAcc-Mon')
-Kick_Mon = builder.aIn('Kick-Mon')
+Kick_RB = []
+KickRef_Mon = []
+KickAcc_Mon = []
+Kick_Mon = []
+Kick_SP = []
+Current_RB = []
+CurrentRef_Mon = []
+FOFBAcc_Mon = []
+Current_Mon = []
 
-# Correct the string concatenation
-Kick_SP = builder.aOut('Kick-SP', on_update=lambda v: caput(psname + ':Current-SP', norm.conv_strength_2_current(v, strengths_dipole=dipole_strength)))
+for corr in correctors:
+    for ori in orientation:
+        psname = 'SI-'+sector+corr+':PS-'+ori
+
+        # get the name of the respective magnet
+        maname = MASearch.conv_psname_2_psmaname(psname)
+
+        # create normalizer object
+        norm = NormalizerFactory.create(maname)
+
+        # Create some records
+        Kick_RB.append(builder.aIn(psname+':Kick-RB'))
+        KickRef_Mon.append(builder.aIn(psname+':KickRef-Mon'))
+        KickAcc_Mon.append(builder.aIn(psname+':KickAcc-Mon'))
+        Kick_Mon.append(builder.aIn(psname+':Kick-Mon'))
+
+        Kick_SP.append(builder.aOut(psname+':Kick-SP', on_update=lambda v: caput(psname + ':Current-SP', norm.conv_strength_2_current(v, strengths_dipole=dipole_strength))))
+
+        Current_RB.append(psname+':Current-RB')
+        CurrentRef_Mon.append(psname+':CurrentRef-Mon')
+        FOFBAcc_Mon.append(psname+':FOFBAcc-Mon')
+        Current_Mon.append(psname+':Current-Mon')
 
 # Boilerplate get the IOC started
 builder.LoadDatabase()
 softioc.iocInit()
 
-def rb(val):
-    Kick_RB.set(norm.conv_current_2_strength(val, strengths_dipole=dipole_strength))
-def ref_mon(val):
-    KickRef_Mon.set(norm.conv_current_2_strength(val, strengths_dipole=dipole_strength))
-def acc_mon(val):
-    KickAcc_Mon.set(norm.conv_current_2_strength(val, strengths_dipole=dipole_strength))
-def mon(val):
-    Kick_Mon.set(norm.conv_current_2_strength(val, strengths_dipole=dipole_strength))
+def rb(val,index):
+    Kick_RB[index].set(norm.conv_current_2_strength(val, strengths_dipole=dipole_strength))
+def ref_mon(val,index):
+    KickRef_Mon[index].set(norm.conv_current_2_strength(val, strengths_dipole=dipole_strength))
+def acc_mon(val,index):
+    KickAcc_Mon[index].set(norm.conv_current_2_strength(val, strengths_dipole=dipole_strength))
+def mon(val,index):
+    Kick_Mon[index].set(norm.conv_current_2_strength(val, strengths_dipole=dipole_strength))
 
-camonitor(psname+':Current-RB', rb)
-camonitor(psname+':CurrentRef-Mon', ref_mon)
-camonitor(psname+':FOFBAcc-Mon', acc_mon)
-camonitor(psname+':Current-Mon', mon)
+
+camonitor(Current_RB, rb)
+camonitor(CurrentRef_Mon, ref_mon)
+camonitor(FOFBAcc_Mon, acc_mon)
+camonitor(Current_Mon, mon)
 
 # Finally leave the IOC running with an interactive shell.
 softioc.interactive_ioc(globals())
