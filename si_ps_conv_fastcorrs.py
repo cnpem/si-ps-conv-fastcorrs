@@ -3,78 +3,98 @@
 import argparse
 from siriuspy.magnet.factory import NormalizerFactory
 from siriuspy.search import MASearch
-# Import the basic framework components.
 from softioc import softioc, builder
-import cothread
-from cothread.catools import caget, caput, camonitor
+from softioc.builder import records
+from cothread.catools import caput
 
 # Parse command line arguments
-parser = argparse.ArgumentParser(description='Start an EPICS IOC with the specified for specific sector number')
+parser = argparse.ArgumentParser(description='Start an EPICS IOC for a specific sector number')
 parser.add_argument('sector', type=str, help='Sector number')
 args = parser.parse_args()
 
 print(args.sector)
-# Define the name of the device you want to convert
 sector = args.sector
 
 correctors = ['M1', 'M2', 'C2', 'C3']
-orientation= ['FCH', 'FCV']
+orientation = ['FCH', 'FCV']
 
-# get dipole energy, used for conversions
+# Get dipole energy, used for conversions
 dipole_strength = 3  # GeV, read from PV SI-Fam:PS-B1B2-1:EnergyRef-Mon
 
-Kick_RB = []
-KickRef_Mon = []
-KickAcc_Mon = []
-Kick_Mon = []
-Kick_SP = []
-Current_RB = []
-CurrentRef_Mon = []
-FOFBAcc_Mon = []
-Current_Mon = []
+# Dictionary to store records and normalizers
+records_dict = {}
 
 for corr in correctors:
     for ori in orientation:
-        psname = 'SI-'+sector+corr+':PS-'+ori
+        psname = 'SI-' + sector + corr + ':PS-' + ori
 
-        # get the name of the respective magnet
+        # Get the name of the respective magnet
         maname = MASearch.conv_psname_2_psmaname(psname)
 
-        # create normalizer object
+        # Create normalizer object
         norm = NormalizerFactory.create(maname)
 
-        # Create some records
-        Kick_RB.append(builder.aIn(psname+':Kick-RB'))
-        KickRef_Mon.append(builder.aIn(psname+':KickRef-Mon'))
-        KickAcc_Mon.append(builder.aIn(psname+':KickAcc-Mon'))
-        Kick_Mon.append(builder.aIn(psname+':Kick-Mon'))
+        # Initialize or update the dictionary for this psname
+        if psname not in records_dict:
+            records_dict[psname] = {}
 
-        Kick_SP.append(builder.aOut(psname+':Kick-SP', on_update=lambda v: caput(psname + ':Current-SP', norm.conv_strength_2_current(v, strengths_dipole=dipole_strength))))
+        # Add the normalizer object
+        records_dict[psname]['norm'] = norm
 
-        Current_RB.append(psname+':Current-RB')
-        CurrentRef_Mon.append(psname+':CurrentRef-Mon')
-        FOFBAcc_Mon.append(psname+':FOFBAcc-Mon')
-        Current_Mon.append(psname+':Current-Mon')
+        # Create and populate records in the dictionary without overwriting
+        records_dict[psname]['kick_rb'] = builder.aIn('my-' + psname + ':Kick-RB')
+        records_dict[psname]['current_rb'] = records.ai('my-' + psname + ':Current-RB', INP='sim-' + psname + ':Current-RB CP')
+        records_dict[psname]['fwd_rb'] = records.ao(psname + ':Fwd-RB', OMSL='closed_loop', DOL='my-' + psname + ':Current-RB CP', OUT=psname + ':Conv-RB PP')
+        records_dict[psname]['conv_rb'] = builder.aOut(psname + ':Conv-RB', always_update=True,
+                                                       on_update=lambda v, psname=psname:
+                                                       records_dict[psname]['kick_rb'].set(
+                                                           records_dict[psname]['norm'].conv_current_2_strength(v, strengths_dipole=dipole_strength))
+                                                       )
 
-# Boilerplate get the IOC started
+        # Add KickRef-Mon, CurrentRef-Mon, and FwdRef-Mon records
+        records_dict[psname]['kickRef_mon'] = builder.aIn('my-' + psname + ':KickRef-Mon')
+        records_dict[psname]['currentRef_mon'] = records.ai('my-' + psname + ':CurrentRef-Mon', INP='sim-' + psname + ':CurrentRef-Mon CP')
+        records_dict[psname]['fwdRef_mon'] = records.ao(psname + ':FwdRef-Mon', OMSL='closed_loop', DOL='my-' + psname + ':CurrentRef-Mon CP', OUT=psname + ':ConvRef-Mon PP')
+        records_dict[psname]['convRef_mon'] = builder.aOut(psname + ':ConvRef-Mon', always_update=True,
+                                                       on_update=lambda v, psname=psname:
+                                                       records_dict[psname]['kickRef_mon'].set(
+                                                           records_dict[psname]['norm'].conv_current_2_strength(v, strengths_dipole=dipole_strength))
+                                                       )
+
+        # Add KickAcc-Mon, FOFBAcc-Mon, and FwdAcc-Mon records
+        records_dict[psname]['kickAcc_mon'] = builder.aIn('my-' + psname + ':KickAcc-Mon')
+        records_dict[psname]['fofbAcc_mon'] = records.ai('my-' + psname + ':FOFBAcc-Mon', INP='sim-' + psname + ':FOFBAcc-Mon CP')
+        records_dict[psname]['fwdAcc_mon'] = records.ao(psname + ':FwdAcc-Mon', OMSL='closed_loop', DOL='my-' + psname + ':FOFBAcc-Mon CP', OUT=psname + ':ConvAcc-Mon PP')
+        records_dict[psname]['convAcc_mon'] = builder.aOut(psname + ':ConvAcc-Mon', always_update=True,
+                                                       on_update=lambda v, psname=psname:
+                                                       records_dict[psname]['kickAcc_mon'].set(
+                                                           records_dict[psname]['norm'].conv_current_2_strength(v, strengths_dipole=dipole_strength))
+                                                       )
+
+        # Add Kick-Mon, FOFB-Mon, and Fwd-Mon records
+        records_dict[psname]['kick_mon'] = builder.aIn('my-' + psname + ':Kick-Mon')
+        records_dict[psname]['fofb_mon'] = records.ai('my-' + psname + ':Current-Mon', INP='sim-' + psname + ':Current-Mon CP')
+        records_dict[psname]['fwd_mon'] = records.ao(psname + ':Fwd-Mon', OMSL='closed_loop', DOL='my-' + psname + ':Current-Mon CP', OUT=psname + ':Conv-Mon PP')
+        records_dict[psname]['conv_mon'] = builder.aOut(psname + ':Conv-Mon', always_update=True,
+                                                       on_update=lambda v, psname=psname:
+                                                       records_dict[psname]['kick_mon'].set(
+                                                           records_dict[psname]['norm'].conv_current_2_strength(v, strengths_dipole=dipole_strength))
+                                                       )
+
+        # Add Kick-SP record
+        records_dict[psname]['kick_sp'] = builder.aOut('my-'+psname+':Kick-SP', always_update=True,
+                                                       on_update=lambda v, psname=psname:
+                                                       records_dict[psname]['current_sp'].set(
+                                                           records_dict[psname]['norm'].conv_strength_2_current(v, strengths_dipole=dipole_strength))
+                                                       )
+
+        # Auxiliary record for the setpoint, using ao with OUT and DOL fields
+        records_dict[psname]['current_sp'] = records.ao('my-'+psname+':Current-SP',
+                                                    OUT=psname+':Current-SP PP')
+
+# Boilerplate to get the IOC started
 builder.LoadDatabase()
 softioc.iocInit()
 
-def rb(val,index):
-    Kick_RB[index].set(norm.conv_current_2_strength(val, strengths_dipole=dipole_strength))
-def ref_mon(val,index):
-    KickRef_Mon[index].set(norm.conv_current_2_strength(val, strengths_dipole=dipole_strength))
-def acc_mon(val,index):
-    KickAcc_Mon[index].set(norm.conv_current_2_strength(val, strengths_dipole=dipole_strength))
-def mon(val,index):
-    Kick_Mon[index].set(norm.conv_current_2_strength(val, strengths_dipole=dipole_strength))
-
-
-camonitor(Current_RB, rb)
-camonitor(CurrentRef_Mon, ref_mon)
-camonitor(FOFBAcc_Mon, acc_mon)
-camonitor(Current_Mon, mon)
-
-# Finally leave the IOC running with an interactive shell.
+# Finally, leave the IOC running with an interactive shell.
 softioc.interactive_ioc(globals())
-
