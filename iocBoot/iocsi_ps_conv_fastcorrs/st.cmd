@@ -13,6 +13,7 @@ si_ps_conv_fastcorrs_registerRecordDeviceDriver pdbbase
 
 ## Load record instances
 dbLoadRecords("db/dipole.db","user=gustavoreis, SEC=$(SEC)")
+dbLoadRecords("db/machine_params.db")
 
 cd "${TOP}/iocBoot/${IOC}"
 iocInit
